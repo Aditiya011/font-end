@@ -1,0 +1,16 @@
+{
+  "students": [
+    {
+      "name": "Dhila",
+      "school": "SMA Singaparna",
+      "prodi": "Bahasa Sunda",
+      "id": 1
+    },
+    {
+      "name": "Vani",
+      "school": "SMA Karang",
+      "prodi": "Bahasa Jepang",
+      "id": 2
+    }
+  ]
+}

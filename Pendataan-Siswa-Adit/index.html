@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Aplikasi Data Mahasiswa</h3>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <div>
+      <input id="name" type="text" placeholder="Isi nama lengkap disini..." />
+      <input id="school" type="text" placeholder="Isi sekolah disini..." />
+      <select id="prodi">
+        <option>Pilih</option>
+        <option value="Manajemen Informatika">Manajemen Informatika</option>
+        <option value="Administrasi Bisnis">Administrasi Bisnis</option>
+      </select>
+      <button id="button">Simpan</button>
+    </div>
+    <table style="margin-top: 10px">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Sekolah</th>
+          <th>Program Studi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>1</th>
+          <th>Vani Ayu Anastasya</th>
+          <th>SMAN 112 Jakarta</th>
+          <th>English Student</th>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+      const editData = (id, name, school, prodi) => {
+        document.getElementById('name').value = name;
+        document.getElementById('school').value = school;
+        document.getElementById('prodi').value = prodi;
+        document.getElementById('button').innerText = 'ubah';
+        document.getElementById('button').setAttribute('onclick', `updateData(${id})`);
+      }
+
+      const updateData = async (id) => {
+        let nameform = document.getElementById('name').value;
+        let shoolform = document.getElementById('school').value;
+        let prodiform = document.getElementById('prodi').value;
+        let text = "Betul data akan diupdate?";
+        if (confirm(text) == true) {
+          await axios.patch(`http://localhost:3000/students/${id}`, {
+            name: nameform,
+            school: schoolform,
+            prodi: prodiform
+          })
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(errror.message);
+            })
+        }
+
+      }
+
+      const saveData = async () => {
+        let nameform = document.getElementById('name').value;
+        let shoolform = document.getElementById('school').value;
+        let prodiform = document.getElementById('prodi').value;
+        let text = "Apakah yakin data akan diupdate?";
+        if (confirm(text) == true) {
+          await axios
+            .post(`http://localhost:3000/students`, {
+
+            })
+        }
+      }
+      const getData = async () => {
+        await axios.get('http://localhost:3000/students')
+          .then((response) => {
+            let bucket = ``;
+            let student = response.data;
+            for (let i = 0; i < students.length; i++) {
+              bucket += `
+          <tr>
+            <td>${i + 1}</td>
+          <td>${students[i].name}</td>
+          <td>${students[i].school}</td>
+          <td>${students[i].prodi}</td>
+          <td>
+            <button onclick="editData('${students}')"
+        </tr > `
+            }
+            document.getElementById('result').innerHTML = bucket;
+          })
+          .catch((error) => {
+            let bucket = `
+             <tr>
+                <td colspan="4">${error.message}</td>
+              </tr>
+            `;
+            document.getElementById('result').innerHTML = bucket;
+          });
+      }
+      getData();
+    </script>
+  </body>
+
+</html>
